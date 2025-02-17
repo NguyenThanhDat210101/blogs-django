@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'customers',
     'blogs',
-    'rest_framework'
+    'categories',
+    'rest_framework',
+    # 'debug_toolbar',
+    # 'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +53,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+DEBUG_TOOLBAR_CONFIG = {  
+    'SHOW_TOOLBAR_CALLBACK': lambda _request: True,  # Hiển thị toolbar khi ở chế độ debug  
+}
 
 ROOT_URLCONF = 'demo.urls'
 
@@ -72,7 +80,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'demo.wsgi.application'
 
-APPEND_SLASH=False
+APPEND_SLASH = False
 DEBUG = True
 
 REST_FRAMEWORK = {
@@ -95,14 +103,14 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
-    'default': {  
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dev',
         'USER': 'default',
         'PASSWORD': 'secret',
         'HOST': 'postgres',
         'PORT': 5432,
-    }  
+    }
 }
 
 

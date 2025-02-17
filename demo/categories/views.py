@@ -1,92 +1,81 @@
-# blogs/views.py
-from blogs.models import Blog
-from blogs.serializers import BlogSerializer
-from helper.helper import dd
-from rest_framework.decorators import api_view
+# categories/views.py
+from categories.models import Category
+from categories.serializers import CategorySerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from django.db import connection, transaction
-import logging  
-
-logger = logging.getLogger(__name__)  
+from django.db import transaction
 
 
-@api_view(['GET'])
-def my_blog(request):
-    return Response({'message': 'my blog!'})
-
-
-class BlogView(APIView):
+class CategoryView(APIView):
     authentication_classes = []
     permission_classes = []
 
-    # API get list blog
+    # API get list category
     def get(self, request):
-        connection.queries.clear() 
-        blogs = Blog.objects.all()
-        serializer = BlogSerializer(blogs, many=True)
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
 
         return Response({"data": serializer.data})
 
-    # API create blog
+    # API create category
     def post(self, request):
-        serializer = BlogSerializer(data=request.data)
+        serializer = CategorySerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
+
             return Response(serializer.data, status=201)
+
         return Response(serializer.errors, status=400)
 
 
-class BlogByIdView(APIView):
+class CategoryByIdView(APIView):
     authentication_classes = []
     permission_classes = []
 
-    # API to get blog by id
+    # API to get category by id
     def get(self, request, id):
         try:
-            logger.info("start BlogByIdView")  
-            blog = Blog.objects.get(id=id)
-            logger.debug(f"Found blog: {blog}")
-            print("Found blog: ", blog)
-            serializer = BlogSerializer(blog)
+            category = Category.objects.get(id=id)
+            print("Found category: ", category)
+            serializer = CategorySerializer(category)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except Blog.DoesNotExist:
-            logger.error(f"Blog with ID {id} does not exist")  
+        except Category.DoesNotExist:
             return Response(
-                {'error': 'Blog not found with this ID'},
+                {'error': 'Category not found with this ID'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
-    # API to delete blog by id
+    # API to delete category by id
     def delete(self, request, id):
         try:
             transaction.set_autocommit(False)
             try:
-                blog = Blog.objects.get(id=id)
-                blog.delete()
+                category = Category.objects.get(id=id)
+                category.delete()
 
                 transaction.commit()
                 return Response(
-                    {'message': f'Blog with ID {id} has been successfully deleted'},
+                    {'message': f'Category with ID {id} has been successfully deleted'},
                     status=status.HTTP_200_OK
                 )
-            except Blog.DoesNotExist:
+            except Category.DoesNotExist:
                 transaction.rollback()
                 return Response(
-                    {'error': 'Blog not found with this ID'},
+                    {'error': 'Category not found with this ID'},
                     status=status.HTTP_404_NOT_FOUND
                 )
         finally:
             transaction.set_autocommit(True)
 
-    # API to update blog by id
+    # API to update category by id
     def put(self, request, id):
         try:
             with transaction.atomic():
-                blog = Blog.objects.get(id=id)
-                serializer = BlogSerializer(blog, data=request.data)
+                category = Category.objects.get(id=id)
+                serializer = CategorySerializer(category, data=request.data)
 
                 if serializer.is_valid():
                     serializer.save()
@@ -99,8 +88,8 @@ class BlogByIdView(APIView):
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
-        except Blog.DoesNotExist:
+        except Category.DoesNotExist:
             return Response(
-                {'error': 'Blog not found with this ID'},
+                {'error': 'Category not found with this ID'},
                 status=status.HTTP_404_NOT_FOUND
             )

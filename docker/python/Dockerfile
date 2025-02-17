@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 RUN pip install psycopg2-binary
+RUN pip install djangorestframework
 # Copy project files
 COPY demo .
 

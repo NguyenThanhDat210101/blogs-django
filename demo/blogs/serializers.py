@@ -1,14 +1,18 @@
-# blogs/serializers.py  
-from rest_framework import serializers  
-from .models import Blog  
-from django.contrib.auth import get_user_model  
+from rest_framework import serializers
+from .models import Blog
+from categories.serializers import CategorySerializer
+from categories.models import Category
 
-User = get_user_model()  
+class BlogSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+    category_id = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        source='category',
+        queryset=Category.objects.all(),
+        required=True
+    )
 
-class BlogSerializer(serializers.ModelSerializer):  
-    author = serializers.ReadOnlyField(source='author.username')  
-
-    class Meta:  
-        model = Blog  
-        fields = ['id', 'title', 'content', 'author', 'created_at', 'updated_at']  
-        read_only_fields = ['author']
+    class Meta:
+        model = Blog
+        fields = ['id', 'title', 'category',
+                  'category_id', 'content', 'created_at']
