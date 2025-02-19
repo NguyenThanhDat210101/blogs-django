@@ -1,6 +1,6 @@
 # categories/views.py
 from categories.models import Category
-from categories.serializers import CategorySerializer
+from categories.serializers.CategorySerializer import CategorySerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -13,7 +13,7 @@ class CategoryView(APIView):
 
     # API get list category
     def get(self, request):
-        categories = Category.objects.all()
+        categories = Category.objects.prefetch_related('blogs').all()
         serializer = CategorySerializer(categories, many=True)
 
         return Response({"data": serializer.data})

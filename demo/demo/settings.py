@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'blogs',
     'categories',
     'rest_framework',
-    # 'debug_toolbar',
+    'debug_toolbar',
+    'django_dump_die'
     # 'django_extensions',
 ]
 
@@ -53,7 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django_dump_die.middleware.DumpAndDieMiddleware',
 ]
 
 DEBUG_TOOLBAR_CONFIG = {  
@@ -105,14 +107,13 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dev',
+        'NAME': 'dev2',
         'USER': 'default',
         'PASSWORD': 'secret',
         'HOST': 'postgres',
         'PORT': 5432,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -22,8 +22,8 @@ from demo import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('customers/', include('customers.urls')),
-    path('blogs/', include('blogs.urls')),
-    path('categories/', include('categories.urls')),
+    path('api/blogs/', include('blogs.urls')),
+    path('api/categories/', include('categories.urls')),
 ]
 
 if settings.DEBUG:
