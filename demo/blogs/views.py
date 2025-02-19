@@ -1,6 +1,6 @@
 # blogs/views.py
 from blogs.models import Blog
-from blogs.serializers import BlogSerializer
+from blogs.serializers.BlogSerializers import BlogSerializer
 from helper.helper import dd
 from rest_framework.decorators import api_view
 from rest_framework.response import Response

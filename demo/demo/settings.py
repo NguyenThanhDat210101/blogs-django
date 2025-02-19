@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'blogs',
     'categories',
     'rest_framework',
-    # 'debug_toolbar',
+    'debug_toolbar',
     # 'django_extensions',
 ]
 
@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 DEBUG_TOOLBAR_CONFIG = {  
@@ -105,7 +105,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dev',
+        'NAME': 'dev2',
         'USER': 'default',
         'PASSWORD': 'secret',
         'HOST': 'postgres',
