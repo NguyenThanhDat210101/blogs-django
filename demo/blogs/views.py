@@ -47,19 +47,13 @@ class BlogView(APIView):
             with transaction.atomic():
                 blog = Blog.objects.create(**blog_data)
                 blog.save()
-                # Tạo các mối quan hệ với category
                 categories_data = serializer.validated_data.get(
                     'categories', [])
 
-                # Lấy tất cả các category_id từ categories_data
                 category_ids = [category_data.get(
                     'category') for category_data in categories_data]
-                # Fetch tất cả các category trong một query duy nhất
-                dump(category_ids)
                 categories = Category.objects.filter(id__in=category_ids)
-                dump(categories)
 
-                # Tạo danh sách các BlogCategory để bulk_create
                 blog_categories = []
                 for category_data, category in zip(categories_data, categories):
                     print('category_data', category_data)
@@ -70,7 +64,6 @@ class BlogView(APIView):
                         status=category_data.get('status', 'active')
                     ))
 
-                # Chèn nhiều dòng BlogCategory trong một query
                 BlogCategory.objects.bulk_create(blog_categories)
 
                 return Response({

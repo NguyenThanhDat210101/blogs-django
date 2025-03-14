@@ -28,6 +28,22 @@ services:
     networks:
       - backend
 
+  nextjs:
+    build:
+      context: ./
+      dockerfile: docker/node/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./:/var/www/
+    networks:
+      - frontend
+    depends_on:
+      - python
+      - postgres
+
 volumes:
   postgres:
     driver: local
@@ -36,3 +52,4 @@ volumes:
 
 networks:
   backend:
+  frontend:
